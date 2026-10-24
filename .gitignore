@@ -1,0 +1,8 @@
+.env
+.env.*
+!.env.example
+**/runtime/
+**/__pycache__/
+.venv/
+*.sqlite
+*.log
