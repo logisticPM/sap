@@ -1,0 +1,41 @@
+{
+  "source_records_unchanged": true,
+  "original_case_sha256": "5043216f537b27ca5be36c7189249d39cabb89c159ca9ec95ca4b99c327850bb",
+  "preserved_files": {
+    "app.js": "496c73e08603646655e77688dea86bae1b16d017efaaf2f1beeccd085d3a97bc",
+    "core.mjs": "0820956968a02d709db4510cb817b664bdc63c131f5de72fa042d9d656bf49ce",
+    "PRODUCT_DESIGN.md": "6c240df2a526a32c93145841f82468c804940cb2ae9e07bf7158c530fb07cda4",
+    "replay-api.js": "93a882025a5e13c900ad7e0d2150ca9a5508a3d55b3d3c720403b71841a51083",
+    "service.ts": "c41c291f45cc46d862605454dbaa90d3b13f124f3213ba6c6baa1444aea0e3ac"
+  },
+  "implementation_checks": [
+    "16 existing cloud authority/evidence/budget assertions",
+    "demand roles/timestamps/null-quantity/citations/alternative prerequisite",
+    "replay both branches, privacy, closure and demand prerequisite"
+  ],
+  "human_timing": "not measured",
+  "business_benefit": "not validated",
+  "live_session": "1697930fe8374ce1838a0d7bf140437e",
+  "observed_live_checks": [
+    "Actual supplier review",
+    "Actual six-source retailer demand review",
+    "Retailer review absent from supplier workspace",
+    "Supplier draft absent from planner before disclosure",
+    "New logistics/QA replies re-reviewed by model",
+    "Unknown demand and QA retained",
+    "Demand prerequisite satisfied before limited alternative authorization",
+    "Actual alternative model run followed by separate supplier disclosure",
+    "Closed in browser; original plan and prior records retained",
+    "Public GitHub replay entry reflects demand trigger"
+  ],
+  "semantic_limitations": [
+    "Demand model described promotion as unquantified upside; source does not establish positive uplift. Original output retained, explicit evidence caveat added.",
+    "Supplier prose mentioned booking as a possible human action; no booking tool or authorization exists. Typed rule actions remain investigation/closure only.",
+    "Passing citation and typed-field validators does not establish all prose semantics."
+  ],
+  "cloud_accounted_usd_display_rounded": 0.554,
+  "cloud_cap_usd": 3,
+  "total_authorization_usd": 10,
+  "new_live_test_cost_approx_usd": 0.12,
+  "deployment_commit": "0d254872a784a116483b186f50c767662038861d"
+}
