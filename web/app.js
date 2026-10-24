@@ -33,7 +33,7 @@ function render(){
  if(!state)return;
  const s=state.stage,a=state.artifact,running=state.job?.status==='running',failed=state.job?.status==='failed',closed=s===5,pending=state.pendingDisclosure;
  const status=closed?'Closed — original plan retained':running?'Evidence review in progress':failed?'Review interrupted':s===0?'New request':s===1?'Waiting for department confirmations':s===2?'Ready for supplier disclosure':s===3?'Planner decision required':pending?'Waiting for supplier disclosure':'Alternative inquiry prepared';
- const owner=closed?'No further action':running?'Agent · supplier workspace':s<=2?'Supplier coordinator':pending?'Supplier coordinator':'Retail planner';
+ const owner=closed?'No further action':running?'Agent · supplier workspace':s<=2?'Supplier coordinator':(pending||(live&&s===4))?'Supplier coordinator':'Retail planner';
  const button=(action,label,secondary=false)=>`<button data-action="${action}" class="${secondary?'secondary':''}" ${running||busy?'disabled':''}>${label}</button>`;
  let why='',nextText='',controls='';
  if(closed){why='Additional-supply follow-up is closed.';nextText='Keep the original purchase plan. Prior replies and decisions remain available below.';}
