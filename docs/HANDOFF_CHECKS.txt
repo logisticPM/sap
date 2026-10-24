@@ -1,0 +1,18 @@
+Handoff validation — 24 October 2026
+
+Portable Python backend: 24 tests passed (21 inherited workbench checks + 3 portable safety checks).
+Static replay contract: passed both branches, stage/role gates, pre-disclosure planner projection, retained last authorized version after closure, and rejection of live mode.
+Browser: local static replay completed supplier review -> new reply -> disclosure -> alternative investigation -> closure.
+Browser: deployed https://logisticpm.github.io/sap/ completed supplier review -> new reply -> disclosure -> direct stop.
+Public page is reachable without login. No model key is requested by the public replay.
+Public deployment initially succeeded: https://github.com/logisticPM/sap/actions/runs/40131812644
+Secret scan: 35 initial tracked files including PPT XML checked for OpenRouter/GitHub credential patterns, private key blocks, original user filesystem paths and excluded runtime files; no matches.
+Original .env, budget ledger, full runtime directory and private historical drafts were not uploaded. Only three selected synthetic-source archived runs were included, with provider generation IDs and usage fields removed.
+Original v31 files and historical records were not modified.
+No new paid model inference was executed for this handoff. Portable live mode has not been re-verified with a paid provider call; its guard/import/workflow paths were checked locally. Previously completed v31 records supply the replay.
+No real SAP, supplier messaging, shipment or human-time measurement was performed.
+
+Known interpretation limitations:
+- Archived model summaries are retained verbatim. Phrases such as 'conditional arrival is confirmed' do not establish a delivery commitment; typed conditions remain unresolved/unmet as shown.
+- QA is unknown, and some archived follow-up selections omit a QA question. Citation/state validation is not a complete quality guarantee. Compare this against a strong rule baseline in the next task-level evaluation.
+- Static page fixtures are inspectable; role display filtering is not security. Browser sessions are not shared across people/devices.

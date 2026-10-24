@@ -40,7 +40,7 @@ The model is `anthropic/claude-sonnet-4.6`. Live review, new reply and alternati
 
 ```powershell
 cd demo
-python -m unittest test_workbench -v
+python -m unittest test_workbench test_portable -v
 ```
 
 Use a clean environment with live execution disabled for tests. The portable extraction has local tests; no additional paid call is claimed for this handoff release. Selected historical outputs originate in the previously tested v31.
