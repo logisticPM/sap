@@ -2,6 +2,10 @@
 
 **Current build: v31 / 24 October 2026.** An English replenishment workbench connecting a retail planner and supplier around one additional-supply inquiry. The Agent reads fragmented evidence, prepares unresolved follow-ups and revises its assessment after new replies. Rules and human authorization constrain what happens next.
 
+## Live cloud Agent update (v32)
+
+[Open Live Agent](https://demand-pulse-team-agent.keen-cod-0621.chatgpt.site/). Teammates use the testing code in their English ZIP; no installation or personal API key. A shared $3 cloud envelope is reserved within the original $10 project budget. The public replay below remains free of model calls. No real business integration or measured benefit is claimed.
+
 ## Start here
 
 1. [Try the public demo](https://logisticpm.github.io/sap/) — no login, no key, no model charges. Historical replay on synthetic business records.
