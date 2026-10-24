@@ -7,6 +7,7 @@ window.replayApi=async function(path,body){
   if(!['supplier','planner'].includes(role))throw Error('Invalid demo role');
   const snapshotStage=d.stage===5?(d.alternative?4:3):d.stage;
   const out=structuredClone(window.REPLAY_SNAPSHOTS[snapshotStage][role]);
+  if(role==='planner')out.demand={records:window.DEMAND_RECORDS,checked:!!d.demandChecked,review:null,activity:null,execution:'deterministic evidence checklist; no archived demand Agent run',purchaseAllowed:false};
   Object.assign(out,{id:d.id,stage:d.stage,revision:d.revision,events:d.events});return out;
  };
  if(path==='/api/new'){
@@ -16,6 +17,8 @@ window.replayApi=async function(path,body){
  if(path.startsWith('/api/state')){const q=new URL(path,location.origin).searchParams;return project(load(q.get('id')),q.get('role'));}
  if(path==='/api/advance'){
   const d=load(body.id);if(d.revision!==body.revision)throw Error('Session changed. Refresh before continuing.');
+  if(body.action==='demand_review'){if(body.role!=='planner'||d.stage===5||d.demandChecked)throw Error('Demand checklist unavailable');d.demandChecked=true;d.events.push({action:'demand_review',role:'planner',execution:'deterministic evidence checklist',recordedAt:Date.now()/1000});d.revision++;save(d);return project(d,body.role);}
+  if(body.action==='alternative'&&!d.demandChecked)throw Error('Review demand evidence before alternative investigation.');
   const allowed={0:{supplier:{review:1}},1:{supplier:{reply:2}},2:{supplier:{share:3}},3:{planner:{alternative:4,stop:5}},4:{planner:{stop:5}}};
   const next=allowed[d.stage]?.[body.role]?.[body.action];if(next===undefined)throw Error('Action is not available for this demo role and stage.');
   d.events.push({action:body.action,role:body.role,from:d.stage,to:next,recordedAt:Date.now()/1000,execution:body.action==='stop'?'local closure rule':'historical replay selection'});

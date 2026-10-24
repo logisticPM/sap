@@ -3,6 +3,7 @@ const fs=require('node:fs'),vm=require('node:vm'),assert=require('node:assert/st
 const store=new Map();global.window=global;global.location={origin:'https://example.test'};
 global.localStorage={getItem:k=>store.get(k),setItem:(k,v)=>store.set(k,v)};
 vm.runInThisContext(fs.readFileSync(__dirname+'/fixtures.js','utf8'));
+vm.runInThisContext(fs.readFileSync(__dirname+'/demand-records.js','utf8'));
 vm.runInThisContext(fs.readFileSync(__dirname+'/replay-api.js','utf8'));
 (async()=>{
  for(const alt of [false,true]){
@@ -16,6 +17,9 @@ vm.runInThisContext(fs.readFileSync(__dirname+'/replay-api.js','utf8'));
   await step('supplier','share');
   const shared=await replayApi('/api/state?id='+id+'&role=planner');
   assert.equal(shared.artifact.conditions.qa_release,'unknown');assert.equal(shared.activity,null);
+  await assert.rejects(()=>step('planner','alternative'));
+  await assert.rejects(()=>step('supplier','demand_review'));
+  const checked=await step('planner','demand_review');assert.equal(checked.demand.review,null);assert.equal(checked.demand.checked,true);assert.equal(checked.demand.purchaseAllowed,false);
   if(alt)await step('planner','alternative');
   const closed=await step('planner','stop');assert.equal(closed.stage,5);
   assert.equal(closed.artifact.next_step,alt?'investigate_alternative':'human_tradeoff');

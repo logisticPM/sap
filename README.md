@@ -1,6 +1,16 @@
 # Demand Pulse — team handoff
 
-**Current build: v31 / 24 October 2026.** An English replenishment workbench connecting a retail planner and supplier around one additional-supply inquiry. The Agent reads fragmented evidence, prepares unresolved follow-ups and revises its assessment after new replies. Rules and human authorization constrain what happens next.
+## Current competition update — v34
+
+- [Competition PRD v34](docs/COMPETITION_PRD_v34.md): demand trigger, evidence limits, continue/hold/stop decisions and SAP boundary.
+- [Frozen minimal-validation protocol](docs/MINIMAL_VALIDATION_v34.md): current flow, strong forms/rules and Agent assistance; no participant timing yet.
+- Live Agent now reads six unchanged retailer records. Demand remains unquantified; a carrier refusal invalidates that route, not the demand opportunity. Supplier disclosure and a planner investigation mandate remain separate.
+- Before alternative investigation, complete the demand review in Live Agent or the explicitly deterministic checklist in Historical Replay. The checklist is not archived Agent output. Closing remains an alternative.
+- Use the English ZIP testing code for the live cloud service. The original $10 total authorization and existing $3 shared cloud envelope have not been reset.
+- The PPT uses earlier screenshots. No measured labor, delivery or financial benefit is established.
+
+
+**Original handoff description: v31 / 24 October 2026 (retained below).** An English replenishment workbench connecting a retail planner and supplier around one additional-supply inquiry. The Agent reads fragmented evidence, prepares unresolved follow-ups and revises its assessment after new replies. Rules and human authorization constrain what happens next.
 
 ## Live cloud Agent update (v32)
 
