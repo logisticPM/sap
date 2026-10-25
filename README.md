@@ -53,7 +53,7 @@ Earlier PRDs, deployed versions and session records are retained in the full pro
 9. [Research report, including negative findings](docs/RESEARCH_REPORT.md).
 10. [Product design and responsibility boundaries](docs/PRODUCT_DESIGN.md).
 11. [Run the real Agent locally](docs/RUN_LOCAL.md), using your own key and an explicit separate budget.
-12. [Business case deck](presentations/SAP_Demand_Pulse_Business_Case_Deck.pptx) — a 10-slide story for the live panel (problem is a handoff; model reads, rules decide, humans authorise; how we lose; the ask) plus a 7-slide appendix (one page per function, validation plan, risks, numbers). Built 25 October from the documents above; every claim carries a Built / Real-model / Desk / Hypothesis label. Generator in `presentations/build/`; `PREREAD=1` builds a pre-read variant with the one-page summary as slide 2.
+12. [Business case deck](presentations/SAP_Demand_Pulse_Business_Case_Deck.pptx) — 13 slides in one flow, no appendix, ordered by the judging weights: the exception class and its evidence, solution versus alternatives, how it works and a six-frame demo storyboard, what is proven and not, where the model was wrong, finance, stakeholder trade-offs, implementation plan, asks. Every claim carries a Built / Real-model / Desk / Hypothesis label. [Eight-minute run sheet](presentations/RUN_SHEET_8MIN.md) with per-slide timing. Generator in `presentations/build/`; `PREREAD=1` adds the one-page summary as slide 2.
 13. [Five-minute English PPT](presentations/Team_Update_EN.pptx) — **built from v31 screenshots; it predates v33–v50 and has not been regenerated.**
 
 ## Five-minute walkthroughs
