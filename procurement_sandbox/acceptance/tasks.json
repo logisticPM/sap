@@ -1,0 +1,292 @@
+{
+  "kit": "demand-pulse-engineering-acceptance",
+  "version": "1.0",
+  "authored_on": "2026-10-25",
+  "author_note": "Authored by Claude on the development side while accelerating the build. The author knows the harness design, so this is NOT an independent or blinded test. It checks whether the chain runs from email to procurement receipt; it establishes no time saving and no business value.",
+  "business_context": {
+    "case_family": "CASE-1042",
+    "sku": "OJ-250",
+    "description": "Orange juice 250 ml, 24 bottles per case",
+    "plant": "CA10",
+    "plant_name": "Toronto DC",
+    "storage_location": "DC01",
+    "baseline_po": "4500001042",
+    "baseline_po_item": "00010",
+    "baseline_inbound_cases": 120,
+    "baseline_inbound_date": "2026-10-27",
+    "on_hand_cases": 240,
+    "promotion_window": "2026-10-24 to 2026-10-28",
+    "supplier": "0000100421",
+    "supplier_name": "NorthOrchard (synthetic)",
+    "supplier_mail": "orders@northorchard.example",
+    "authorised_quote": {"quote_id": "ALT-A-01", "lot": "CIT-92", "price_cad_per_case": 24, "min_cases": 60, "max_cases": 300, "increment_cases": 10, "delivery_at": "2026-10-28T08:00:00Z"},
+    "approved_buyer_request_cases": 140,
+    "note": "Every business fact is synthetic. Mail receipt is the only real connection under test. The approved buyer request of 140 cases is the ONLY quantity basis; supply figures never become demand."
+  },
+  "export_contract": "See README.md section 3: one case_export.json per task.",
+  "tasks": [
+    {
+      "id": "T01",
+      "title": "Ambiguous reply",
+      "case_id": "CASE-1042-T01",
+      "sandbox_setup": [],
+      "inbound": [
+        {"from": "orders@northorchard.example", "subject": "Re: CASE-1042 OJ-250 additional supply, PO 4500001042", "sent_at": "2026-10-25T13:05:00Z",
+         "body": "Hi, we can likely do the extra juice. Friday or Monday, same lot, the dates should be fine. Let me know. Thanks, Priya"}
+      ],
+      "expected": {
+        "matched_case": "CASE-1042-T01",
+        "ambiguity_confirmation_requested": false,
+        "duplicate_detected": false,
+        "disposition": "WAIT",
+        "wait_requires": ["owner", "deadline", "question"],
+        "pr_created": false,
+        "submission_state": null,
+        "approval_state": null,
+        "forbidden_quantities": [140, 7200, 300],
+        "closed": false
+      },
+      "answer_key": "Friday/Monday does not say ship or arrive; quantity, lot expiry and carrier are absent. Correct result is a resumable wait with the supplier as owner and a focused question. No quantity may be inferred and no procurement object may exist."
+    },
+    {
+      "id": "T02",
+      "title": "Explicit revision that completes the conditions",
+      "case_id": "CASE-1042-T02",
+      "sandbox_setup": [],
+      "inbound": [
+        {"from": "orders@northorchard.example", "subject": "Re: CASE-1042 OJ-250 additional supply, PO 4500001042", "sent_at": "2026-10-25T13:10:00Z",
+         "body": "Correction to my earlier note. This replaces it. Carrier Ontario Express has accepted the load. 140 cases of OJ-250, lot CIT-92, will ARRIVE at Toronto DC on 28 Oct 2026 at 08:00. Price CAD 24.00 per case as quoted (ALT-A-01). QA release for CIT-92 is complete. Receiving slot 28 Oct 08:00 to be confirmed by your DC. Priya"}
+      ],
+      "expected": {
+        "matched_case": "CASE-1042-T02",
+        "ambiguity_confirmation_requested": false,
+        "duplicate_detected": false,
+        "disposition": "CHANGE",
+        "pr_created": true,
+        "pr_count": 1,
+        "pr_quantity": "140.000",
+        "pr_unit": "CS",
+        "pr_delivery_date": "2026-10-28",
+        "submission_state": "submitted_awaiting_procurement_approval",
+        "approval_state": "approved",
+        "release_status": "released",
+        "forbidden_quantities": [],
+        "closed": true,
+        "open_unknowns_mentions": ["receiving slot"]
+      },
+      "answer_key": "Explicit supersession, arrival not shipment, quantity matches the approved buyer request, price matches the authorised quote. The receiving slot is still open and must appear as an unknown, not block the change. The approver releases; the case closes with the PR link."
+    },
+    {
+      "id": "T03",
+      "title": "Partial fulfilment",
+      "case_id": "CASE-1042-T03",
+      "sandbox_setup": [],
+      "inbound": [
+        {"from": "orders@northorchard.example", "subject": "Re: CASE-1042 OJ-250 additional supply, PO 4500001042", "sent_at": "2026-10-25T13:20:00Z",
+         "body": "We can confirm 60 cases of OJ-250 lot CIT-92 arriving Toronto DC 28 Oct 08:00, carrier accepted, QA released, CAD 24 per case. The remaining 80 cases cannot be confirmed before 30 Oct; I will come back to you. Priya"}
+      ],
+      "expected": {
+        "matched_case": "CASE-1042-T03",
+        "ambiguity_confirmation_requested": false,
+        "duplicate_detected": false,
+        "disposition": "CHANGE",
+        "pr_created": true,
+        "pr_count": 1,
+        "pr_quantity": "60.000",
+        "pr_unit": "CS",
+        "submission_state": "submitted_awaiting_procurement_approval",
+        "approval_state": "approved",
+        "release_status": "released",
+        "forbidden_quantities": [140, 80],
+        "closed": false,
+        "wait_requires": ["owner", "deadline", "question"]
+      },
+      "answer_key": "Only the confirmed 60 cases become a change request. The unconfirmed 80 become a wait item owned by the supplier with a 30 Oct deadline. A PR for 140 or for 80 is a critical error. The case stays open because the wait item is open."
+    },
+    {
+      "id": "T04",
+      "title": "Quantity stated in a different unit",
+      "case_id": "CASE-1042-T04",
+      "sandbox_setup": [],
+      "inbound": [
+        {"from": "orders@northorchard.example", "subject": "Re: CASE-1042 OJ-250 additional supply, PO 4500001042", "sent_at": "2026-10-25T13:30:00Z",
+         "body": "Confirmed: 3,360 bottles of OJ-250 (24 per case), lot CIT-92, arriving Toronto DC 28 Oct 08:00, carrier accepted, QA released, CAD 24 per case of 24. Priya"}
+      ],
+      "expected": {
+        "matched_case": "CASE-1042-T04",
+        "ambiguity_confirmation_requested": false,
+        "duplicate_detected": false,
+        "disposition": "CHANGE",
+        "pr_created": true,
+        "pr_count": 1,
+        "pr_quantity": "140.000",
+        "pr_unit": "CS",
+        "submission_state": "submitted_awaiting_procurement_approval",
+        "approval_state": "approved",
+        "release_status": "released",
+        "forbidden_quantities": [3360],
+        "closed": true
+      },
+      "answer_key": "3,360 bottles at 24 per case is 140 cases, which equals the approved request. The PR must be in cases. A PR with RequestedQuantity 3360 is a unit error the sandbox would accept, so the application must catch it."
+    },
+    {
+      "id": "T05",
+      "title": "Reply that matches the wrong order",
+      "case_id": "CASE-1042-T05",
+      "sandbox_setup": [],
+      "inbound": [
+        {"from": "orders@northorchard.example", "subject": "Re: additional supply, PO 4500001077", "sent_at": "2026-10-25T13:40:00Z",
+         "body": "Confirmed: 140 cases OJ-250 Family 1 L arriving Toronto DC 28 Oct 08:00, carrier accepted, QA released. Priya"}
+      ],
+      "expected": {
+        "matched_case": null,
+        "ambiguity_confirmation_requested": true,
+        "duplicate_detected": false,
+        "disposition": null,
+        "pr_created": false,
+        "submission_state": null,
+        "approval_state": null,
+        "forbidden_quantities": [140],
+        "closed": false
+      },
+      "answer_key": "PO 4500001077 does not exist and 'OJ-250 Family 1 L' is a different article. The system must ask for confirmation of the match and must not start a paid review or create any object until a human confirms. Silent matching to CASE-1042 is a critical error."
+    },
+    {
+      "id": "T06",
+      "title": "Duplicate email",
+      "case_id": "CASE-1042-T06",
+      "sandbox_setup": [],
+      "inbound": [
+        {"from": "orders@northorchard.example", "subject": "Re: CASE-1042 OJ-250 additional supply, PO 4500001042", "sent_at": "2026-10-25T13:50:00Z", "message_id": "<dup-001@northorchard.example>",
+         "body": "Confirmed: 140 cases OJ-250 lot CIT-92 arriving Toronto DC 28 Oct 08:00, carrier accepted, QA released, CAD 24 per case. Priya"},
+        {"from": "orders@northorchard.example", "subject": "Re: CASE-1042 OJ-250 additional supply, PO 4500001042", "sent_at": "2026-10-25T13:50:00Z", "message_id": "<dup-001@northorchard.example>",
+         "body": "Confirmed: 140 cases OJ-250 lot CIT-92 arriving Toronto DC 28 Oct 08:00, carrier accepted, QA released, CAD 24 per case. Priya"},
+        {"from": "dispatch@northorchard.example", "subject": "Fwd: Re: CASE-1042 OJ-250 additional supply, PO 4500001042", "sent_at": "2026-10-25T13:52:00Z", "message_id": "<fwd-002@northorchard.example>",
+         "body": "FYI, forwarding Priya's confirmation.\n\n---------- Forwarded message ----------\nConfirmed: 140 cases OJ-250 lot CIT-92 arriving Toronto DC 28 Oct 08:00, carrier accepted, QA released, CAD 24 per case. Priya"}
+      ],
+      "expected": {
+        "matched_case": "CASE-1042-T06",
+        "ambiguity_confirmation_requested": false,
+        "duplicate_detected": true,
+        "max_reviews": 1,
+        "disposition": "CHANGE",
+        "pr_created": true,
+        "pr_count": 1,
+        "pr_quantity": "140.000",
+        "pr_unit": "CS",
+        "submission_state": "submitted_awaiting_procurement_approval",
+        "approval_state": "approved",
+        "release_status": "released",
+        "forbidden_quantities": [280, 420],
+        "closed": true
+      },
+      "answer_key": "The second email has the same Message-ID and must be dropped. The forward carries no new facts and must not start a second paid review. Exactly one review and exactly one PR for 140 cases."
+    },
+    {
+      "id": "T07",
+      "title": "Stale proposal against an updated plan",
+      "case_id": "CASE-1042-T07",
+      "sandbox_setup": [
+        {"when": "after_review_accepted_before_submission", "action": "PATCH A_PurchaseOrderItem(PurchaseOrder='4500001042',PurchaseOrderItem='00010') OrderQuantity=150 with If-Match current ETag",
+         "purpose": "Simulate SAP changing the baseline PO after the review read it"}
+      ],
+      "inbound": [
+        {"from": "orders@northorchard.example", "subject": "Re: CASE-1042 OJ-250 additional supply, PO 4500001042", "sent_at": "2026-10-25T14:00:00Z",
+         "body": "Confirmed: 140 cases OJ-250 lot CIT-92 arriving Toronto DC 28 Oct 08:00, carrier accepted, QA released, CAD 24 per case. Priya"}
+      ],
+      "expected": {
+        "matched_case": "CASE-1042-T07",
+        "ambiguity_confirmation_requested": false,
+        "duplicate_detected": false,
+        "disposition": "CHANGE",
+        "pr_created": false,
+        "submission_state": "baseline_changed_re_review_required",
+        "approval_state": null,
+        "forbidden_quantities": [],
+        "closed": false
+      },
+      "answer_key": "The draft carries the PO change timestamp the review saw. After the PO changes, the sandbox answers 412. The application must show 're-review required', create nothing, and must not retry with the old timestamp."
+    },
+    {
+      "id": "T08",
+      "title": "Rejected by procurement",
+      "case_id": "CASE-1042-T08",
+      "sandbox_setup": [
+        {"when": "after_submission", "action": "procurement_approver calls RejectPurchaseRequisition with Reason='Quote expired before cutoff'", "purpose": "Exercise the returned state"}
+      ],
+      "inbound": [
+        {"from": "orders@northorchard.example", "subject": "Re: CASE-1042 OJ-250 additional supply, PO 4500001042", "sent_at": "2026-10-25T14:10:00Z",
+         "body": "Confirmed: 140 cases OJ-250 lot CIT-92 arriving Toronto DC 28 Oct 08:00, carrier accepted, QA released, CAD 24 per case. Priya"}
+      ],
+      "expected": {
+        "matched_case": "CASE-1042-T08",
+        "ambiguity_confirmation_requested": false,
+        "duplicate_detected": false,
+        "disposition": "CHANGE",
+        "pr_created": true,
+        "pr_count": 1,
+        "pr_quantity": "140.000",
+        "pr_unit": "CS",
+        "submission_state": "submitted_awaiting_procurement_approval",
+        "approval_state": "returned",
+        "release_status": "rejected",
+        "rejection_reason_contains": "Quote expired",
+        "forbidden_quantities": [],
+        "closed": false
+      },
+      "answer_key": "Submission succeeds, procurement rejects. The application must show 'returned by procurement' with the reason, must not show the change as completed, and must leave the case open for the planner."
+    },
+    {
+      "id": "T09",
+      "title": "Insufficient evidence: supply offered, no demand basis",
+      "case_id": "CASE-1042-T09",
+      "sandbox_setup": [],
+      "inbound": [
+        {"from": "orders@northorchard.example", "subject": "Re: CASE-1042 OJ-250 additional supply, PO 4500001042", "sent_at": "2026-10-25T14:20:00Z",
+         "body": "Just so you know, we have 7,200 free bottles in lot CIT-92 if you want more. No carrier booked yet. Priya"}
+      ],
+      "expected": {
+        "matched_case": "CASE-1042-T09",
+        "ambiguity_confirmation_requested": false,
+        "duplicate_detected": false,
+        "disposition_in": ["KEEP", "WAIT"],
+        "pr_created": false,
+        "submission_state": null,
+        "approval_state": null,
+        "forbidden_quantities": [7200, 300, 140],
+        "closed_in": [true, false]
+      },
+      "answer_key": "Available supply is not demand. Nothing in the reply confirms arrival, carrier or the approved 140-case request. Correct result is keep the plan, or wait with a specific question. Any quantity derived from 7,200 bottles is a critical error."
+    },
+    {
+      "id": "T10",
+      "title": "Submission failure with unknown outcome",
+      "case_id": "CASE-1042-T10",
+      "sandbox_setup": [
+        {"when": "first_submission_attempt", "action": "send header X-Sandbox-Fault: accept_then_fail", "purpose": "Sandbox persists the PR and returns 502; only a retry with the same Idempotency-Key reveals it"}
+      ],
+      "inbound": [
+        {"from": "orders@northorchard.example", "subject": "Re: CASE-1042 OJ-250 additional supply, PO 4500001042", "sent_at": "2026-10-25T14:30:00Z",
+         "body": "Confirmed: 140 cases OJ-250 lot CIT-92 arriving Toronto DC 28 Oct 08:00, carrier accepted, QA released, CAD 24 per case. Priya"}
+      ],
+      "expected": {
+        "matched_case": "CASE-1042-T10",
+        "ambiguity_confirmation_requested": false,
+        "duplicate_detected": false,
+        "disposition": "CHANGE",
+        "pr_created": true,
+        "pr_count": 1,
+        "pr_quantity": "140.000",
+        "pr_unit": "CS",
+        "submission_attempts_min": 2,
+        "first_submission_state": "submission_failed_outcome_unknown",
+        "submission_state": "already_submitted",
+        "approval_state": "approved",
+        "release_status": "released",
+        "forbidden_quantities": [],
+        "closed": true
+      },
+      "answer_key": "First attempt returns 502 with the object already persisted. The application must show 'failed, outcome unknown', then retry with the same key and receive 'already submitted'. Exactly one PR. Showing 'completed' on the 502, or creating a second PR with a new key, is a critical error."
+    }
+  ]
+}

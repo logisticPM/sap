@@ -77,7 +77,7 @@ Pick one explicit write target first: a **procurement change request or approval
 | Receipts and failure handling | Show success, rejection, failure and re-approval-needed as distinct states | "Request sent" is never displayed as "change completed" | Codex | S |
 | Close the exception | Store the final disposition and the object link on the case | The planner keeps no separate tracking sheet | Codex | S |
 
-**Decision taken 25 October: no SAP tenant or public-sandbox probe; the output end is a mock, made as SAP-shaped as possible.** The standalone, persistent procurement mock service now exists in the full project folder under `procurement_sandbox/` (S/4HANA-shaped OData v2 services for purchase order read, stock read and purchase requisition read/write; SQLite; CSRF; roles; ETags; idempotency key; duplicate guard; staleness check; fault injection; audit; 21 contract tests). Its contract and the change-draft field mapping are in `procurement_sandbox/CONTRACT.md`. It proves the application-layer loop. Every response and every screen labels it **"Procurement sandbox — not SAP connected"**.
+**Decision taken 25 October: no SAP tenant or public-sandbox probe; the output end is a mock, made as SAP-shaped as possible.** The standalone, persistent procurement mock service now exists in this repository under [`procurement_sandbox/`](../procurement_sandbox/README.md) (S/4HANA-shaped OData v2 services for purchase order read, stock read and purchase requisition read/write; SQLite; CSRF; roles; ETags; idempotency key; duplicate guard; staleness check; fault injection; audit; 21 contract tests). Its contract and the change-draft field mapping are in `procurement_sandbox/CONTRACT.md`; a reference client with the response-to-state mapping is in `procurement_sandbox/client.py`. It proves the application-layer loop. Every response and every screen labels it **"Procurement sandbox — not SAP connected"**.
 
 Before anyone uses the SAP name to claim connectivity, we still need a test tenant, a technical contact, and a check of exactly which read and draft/approval interfaces that release supports. The mock never substitutes for that verification. Public material already suggests the free sandbox is effectively read-only and that released purchase-order APIs handle only active documents (sources in section 8); the probe gives the real answer.
 
@@ -92,7 +92,9 @@ Before anyone uses the SAP name to claim connectivity, we still need a test tena
 
 ## 6. Testing — engineering acceptance first, business validation second, reported apart
 
-**Engineering acceptance: ten frozen tasks.** Written by someone outside the development pair, sealed with hashes before the first run, delivered as real emails. They cover: an ambiguous reply; an explicit revision; a partial fulfilment; a different quantity unit; a reply matched to the wrong order; a duplicate email; a stale proposal against an updated plan; a rejection; insufficient evidence; a submission failure. The question is whether the chain runs from email to procurement receipt. Every unconnected or synthetic component is listed item by item in the report.
+**Engineering acceptance: ten frozen tasks.** They cover: an ambiguous reply; an explicit revision; a partial fulfilment; a different quantity unit; a reply matched to the wrong order; a duplicate email; a stale proposal against an updated plan; a rejection; insufficient evidence; a submission failure. The question is whether the chain runs from email to procurement receipt. Every unconnected or synthetic component is listed item by item in the report.
+
+**Status 25 October:** the ten tasks, their answer keys, the `case_export.json` contract the application must emit, the freeze (`freeze.json`, hashed) and the scorer exist in [`procurement_sandbox/acceptance/`](../procurement_sandbox/acceptance/README.md). Because the build is being accelerated without a team, **the tasks were authored by Claude on the development side and are flagged as not independent**. An outside author should rewrite the email bodies and answer keys, and re-freeze, before any acceptance result is cited.
 
 **Business validation: only once real tasks and participants exist.** Three arms on the same materials with the same information rights: current process, strong form-and-rules, Agent-assisted. Counterbalanced so that no one handles the same case twice and gains a memory advantage. Record:
 
@@ -112,7 +114,18 @@ Before anyone uses the SAP name to claim connectivity, we still need a test tena
 
 **Days 8–12.** Freeze the ten tasks, run engineering acceptance, write the report. Business validation starts only when a partner provides real tasks.
 
-Roughly nine to twelve engineering days across the two owners if the team items land. Only the team can: provide the mailbox domain; register for the SAP sandbox key; hold two or three conversations with people who handle replenishment exceptions to confirm the three end states are the right ones; and name who writes the ten tasks and who plays the supplier.
+Roughly nine to twelve engineering days across the two owners.
+
+**Solo mode (decided 25 October): the build proceeds without waiting for the team.** Each item that needed the team has a substitute, and each substitute is declared in the acceptance report:
+
+| Needed from the team | Substitute while solo | What it costs in evidence |
+|---|---|---|
+| Mailbox domain | Development runs use an inbound simulator that POSTs the task emails to `/api/inbound` in the same shape the mail webhook will use; declared as `synthetic_components: ["mail receipt simulated"]`. For real receipt, a Cloudflare Email Routing domain can be bought by one person in an afternoon | Until a real mailbox exists, "mail receipt is a real connection" is not yet true |
+| SAP sandbox key | Dropped; output end is the mock, labelled on every response | No SAP write semantics tested |
+| Sandbox reachable from the cloud app | `cloudflared tunnel --url http://127.0.0.1:8081` (no account; URL changes per start) for development; a small host or an in-deployment port for a stable demo | None, if the URL is refreshed per session |
+| Independent author for the ten tasks | Claude authored them; flagged as not independent in `tasks.json` and in every report | Results are a development check, not a blinded test |
+| Someone to play the supplier | The developer sends the task emails, or the simulator does | Same as above |
+| Two or three conversations with practitioners | Deferred; the three end states remain our hypothesis | The thesis may be measuring a loop nobody runs; this is the first thing to fix when a person is available |
 
 **Explicitly out of scope:** a production SAP tenant, carrier booking, payment, multi-tenant authentication, demand forecasting, multi-channel intake, more than one retailer or SKU, a general agent platform.
 

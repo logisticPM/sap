@@ -46,13 +46,14 @@ Earlier PRDs, deployed versions and session records are retained in the full pro
 2. [Open the live v50 task workspace](https://demand-pulse-team-agent.keen-cod-0621.chatgpt.site/task?id=1c08677ed719499d8459ee432039c9db&role=planner) — testing code required; no model calls from the task view.
 3. [Stakeholder brief](docs/STAKEHOLDER_BRIEF.md) — the hardest question from software development, marketing, finance and product strategy, with our answer and evidence links for each.
 4. [Product thesis and sandbox plan](docs/PRODUCT_THESIS_AND_SANDBOX_PLAN.md) — the one claim we are prepared to lose, how we lose it, and the minimal work to connect a real supplier email in and a persistent procurement-sandbox object out. Engineering acceptance and business validation are reported apart. **Proposed, not built.**
-5. [Competition PRD v41](docs/COMPETITION_PRD_v41.md) — current product definition. [PRD v34](docs/COMPETITION_PRD_v34.md) is retained for comparison.
-6. [Progress and implementation status](docs/PROGRESS.md).
-7. [Validation results, preserved failures and next experiment](docs/VALIDATION.md).
-8. [Research report, including negative findings](docs/RESEARCH_REPORT.md).
-9. [Product design and responsibility boundaries](docs/PRODUCT_DESIGN.md).
-10. [Run the real Agent locally](docs/RUN_LOCAL.md), using your own key and an explicit separate budget.
-11. [Five-minute English PPT](presentations/Team_Update_EN.pptx) — **built from v31 screenshots; it predates v33–v50 and has not been regenerated.**
+5. [Procurement sandbox](procurement_sandbox/README.md) — S/4HANA-shaped mock of the purchase-order, stock and purchase-requisition services (CSRF, roles, ETags, idempotency, staleness, fault injection, audit) with a reference client and a ten-task engineering-acceptance kit. **Not SAP connected**, and it says so on every response.
+6. [Competition PRD v41](docs/COMPETITION_PRD_v41.md) — current product definition. [PRD v34](docs/COMPETITION_PRD_v34.md) is retained for comparison.
+7. [Progress and implementation status](docs/PROGRESS.md).
+8. [Validation results, preserved failures and next experiment](docs/VALIDATION.md).
+9. [Research report, including negative findings](docs/RESEARCH_REPORT.md).
+10. [Product design and responsibility boundaries](docs/PRODUCT_DESIGN.md).
+11. [Run the real Agent locally](docs/RUN_LOCAL.md), using your own key and an explicit separate budget.
+12. [Five-minute English PPT](presentations/Team_Update_EN.pptx) — **built from v31 screenshots; it predates v33–v50 and has not been regenerated.**
 
 ## Five-minute walkthroughs
 

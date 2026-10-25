@@ -1,0 +1,21 @@
+{
+  "kit": "demand-pulse-engineering-acceptance",
+  "version": "1.0",
+  "tasks_file": "tasks.json",
+  "tasks_sha256": "0f94100fe0900f68a631c48c3863c76e1818acc29ad38d755f9926b6eb9afebc",
+  "task_count": 10,
+  "per_task_sha256": {
+    "T01": "39459e8da11be9abff5af426cd362ccc1b5fa8a944a081e61becc31f6abba014",
+    "T02": "380c88c5dc2b705a7800eaf4a0c0db3d383b29c5ee80a237132c850944dc0ec4",
+    "T03": "f971c2e759e6b40b4e9cb4cdfa2c4490d4393dce0ca74908cae3d9065f2a7ed7",
+    "T04": "838ee7a367872b1baac1d5483c8bcc26df3dd68d1d7bd04fb860e06551ff48d6",
+    "T05": "5bc81c46fb47e105d7336dde0d76892be64f9d1e563eb290f890acc9bfa9fa45",
+    "T06": "9e7c7445f8c9e6dace9665aa8e4306917d7216a2ea0d6b886c3fd1026f8301db",
+    "T07": "d02ac9bd314f1c87400ceaf6c96186c96dcf04d022ce19ad1949836c41824716",
+    "T08": "c3dc62cecc931ef765c8aee13bad30e6ba398c26198e56509259ef8794f3264c",
+    "T09": "90f15eaeb9a2eb2e94b92dcf36c1280114e15ff16a9c92d39ef1aa51ba852c73",
+    "T10": "16fe20cda71702448527692666f3151e8af35ef663ba2df2b95ef67b0c91abca"
+  },
+  "frozen_at": "2026-10-25T07:39:39Z",
+  "statement": "Frozen before the first acceptance run. Engineering acceptance only: no time-saving or business-value conclusion may be drawn from these tasks."
+}

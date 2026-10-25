@@ -1,0 +1,62 @@
+{
+  "synthetic": true,
+  "label": "Procurement sandbox - not SAP connected. All records are authored synthetic test data for CASE-1042.",
+  "materials": {
+    "OJ-250": {"BaseUnit": "CS", "MaterialGroup": "BEV-JUICE", "Description": "Orange juice 250 ml, 24 bottles per case"}
+  },
+  "plants": {
+    "CA10": {"Name": "Toronto DC", "StorageLocations": ["DC01"]}
+  },
+  "suppliers": {
+    "0000100421": {"Name": "NorthOrchard (synthetic)"}
+  },
+  "purchase_orders": [
+    {
+      "PurchaseOrder": "4500001042",
+      "PurchaseOrderType": "NB",
+      "Supplier": "0000100421",
+      "CompanyCode": "CA01",
+      "PurchasingOrganization": "CA01",
+      "PurchasingGroup": "C01",
+      "DocumentCurrency": "CAD",
+      "CreationDate": "2026-10-20T00:00:00Z",
+      "LastChangeDateTime": "2026-10-23T14:40:00Z",
+      "PurchasingDocumentDeletionCode": "",
+      "items": [
+        {
+          "PurchaseOrderItem": "00010",
+          "Material": "OJ-250",
+          "PurchaseOrderItemText": "Orange juice 250 ml, 24 bottles per case",
+          "Plant": "CA10",
+          "StorageLocation": "DC01",
+          "OrderQuantity": "120.000",
+          "PurchaseOrderQuantityUnit": "CS",
+          "NetPriceAmount": "22.500",
+          "NetPriceQuantity": "1.000",
+          "DocumentCurrency": "CAD",
+          "MaterialGroup": "BEV-JUICE",
+          "PurchasingDocumentDeletionCode": "",
+          "schedule_lines": [
+            {
+              "ScheduleLine": "0001",
+              "ScheduleLineDeliveryDate": "2026-10-27T00:00:00Z",
+              "ScheduleLineOrderQuantity": "120.000",
+              "DelivDateCategory": "1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "stock": [
+    {
+      "Material": "OJ-250",
+      "Plant": "CA10",
+      "StorageLocation": "DC01",
+      "Batch": "CIT-91",
+      "InventoryStockType": "01",
+      "MatlWrhsStkQtyInMatlBaseUnit": "240.000",
+      "MaterialBaseUnit": "CS"
+    }
+  ]
+}
