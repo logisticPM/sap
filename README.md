@@ -4,25 +4,26 @@
 
 ## For the judges: start here
 
-1. **Watch the three-minute demo** (plays in the browser): <https://logisticpm.github.io/sap/video/Demand_Pulse_Demand_to_Decision_EN.mp4>. It replays two retained real-model tests on synthetic data: the demand evidence gate moving from pause to continue, then a supplier reply read as a revision through to a recorded decision and a procurement-sandbox receipt. No new model calls were made for filming; SAP is not connected.
-2. **The slide deck** is attached to our submission email; the demo video above is embedded in it.
-3. **Try it yourself, no login**: <https://logisticpm.github.io/sap/>. An interactive replay of an earlier version of the supplier-reply workflow, on synthetic records, with no model calls.
-4. **What the product does, in five statements**: [docs/STORY_DEFINITIONS.md](docs/STORY_DEFINITIONS.md).
-5. **The code**:
-   - [`procurement_sandbox/`](procurement_sandbox/README.md): an S/4HANA-shaped procurement sandbox (purchase order, stock and purchase requisition services, with CSRF, ETags, idempotency and fault injection), a reference client, a ten-task acceptance kit and its tests. Not SAP connected.
-   - [`demo/`](docs/RUN_LOCAL.md): the local Agent workbench, runnable with your own model key.
-   - [`web/`](web/): the public replay above.
-   - The deployed cloud workspace behind the video is hosted separately and is not part of this repository.
+**Latest presentation: v71, 25 October 2026.** [Open the release and download all files](https://github.com/logisticPM/sap/releases/tag/presentation-v71).
 
-All business data is synthetic. Model cost is measured; time saved and business value are hypotheses that a pilot is designed to test.
+1. **[Download the complete English ZIP](https://github.com/logisticPM/sap/releases/download/presentation-v71/Demand_Pulse_Presentation_v71_EN.zip)**: PowerPoint, standalone narrated video, English script and playback instructions.
+2. **[PowerPoint with embedded video](https://github.com/logisticPM/sap/releases/download/presentation-v71/Demand_Pulse_Product_Story_v71_EN.pptx)**: slide 6 includes the three-minute recording with Jeremy English narration. Enable computer audio.
+3. **[Watch or download the narrated video](https://github.com/logisticPM/sap/releases/download/presentation-v71/Demand_Pulse_Actual_Workflow_v71_EN_Voiced.mp4)**: new supplier reply, actual Agent review, revised information, authorized disclosure, planner decision and independent retailer approval with a persistent sandbox receipt.
+4. **[English narration and timing](presentations/NARRATION_v71_EN.txt)** and **[recording boundaries](docs/PRESENTATION_V71.md)**.
+5. **[Try the public replay](https://logisticpm.github.io/sap/)**: no login or key. This is an earlier interactive historical replay with no model calls. Publishing v71 presentation materials does not upgrade that replay or redeploy the live Agent.
+6. **The code**: [procurement sandbox](procurement_sandbox/README.md), [local Agent workbench](docs/RUN_LOCAL.md), and [public replay](web/). The cloud workspace is hosted separately.
+
+The video records real model executions on synthetic business materials. The opening demand context is retained from an earlier review; the supplier task then runs two new reviews and the authorization/approval flow. Business roles are simulated, SAP is not connected, and edited video timing does not establish time savings or business returns. The public ZIP contains no team testing code or model credentials.
+
+Earlier files and notes below remain for provenance. For the current presentation, use the v71 release rather than the older repository deck.
 
 ---
 
-## Team handoff notes
+## Historical team handoff notes (retained)
 
 _Last synchronised: 25 October 2026, against deliverable v50 (deployed) and v51 (in progress)._
 
-## Current state — v50 deployed, v51 under construction
+## Historical snapshot — v50 deployed, v51 under construction
 
 **Deployed now (v50, Site version 37).** One English task flow on the same synthetic CASE-1042 (OJ-250 orange juice, Toronto DC, original plan 360 cases retained): request → supplier disclosure → decision update → retailer procurement review.
 
@@ -60,7 +61,7 @@ Teammates use the testing code from the English ZIP. The task view uses read-onl
 
 Earlier PRDs, deployed versions and session records are retained in the full project folder, not in this repository.
 
-## Start here
+## Earlier project references (retained)
 
 1. [Try the public demo](https://logisticpm.github.io/sap/) — no login, no key, no model charges. Historical replay on synthetic business records (v31 records).
 2. [Open the live v50 task workspace](https://demand-pulse-team-agent.keen-cod-0621.chatgpt.site/task?id=1c08677ed719499d8459ee432039c9db&role=planner) — testing code required; no model calls from the task view.

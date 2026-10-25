@@ -1,0 +1,17 @@
+00:00
+Should the planner change the original three hundred and sixty case plan? An earlier demand review supports investigating supply, but extra demand remains unquantified. We open a new supplier task. The supplier enters an update: the carrier declined, no vehicle is allocated, and the receiving appointment is pending.
+
+00:24
+Now we ask the Agent to check the reply. These are real model calls, recorded during operation, with waiting time shortened. The Agent checks the available materials and prepares a targeted clarification. The supplier previews the response and authorizes sharing. This permission shares information. It does not approve a purchase or shipment.
+
+00:54
+Here comes new information. The supplier withdraws the carrier refusal and reports an allocated vehicle. The receiving appointment is still pending. We save the revised reply privately. Before sharing it, we switch to the planner. The planner still sees the earlier authorized refusal, not the new draft.
+
+01:22
+Back with the supplier, we run a second real review. The Agent checks the revised materials rather than reusing its previous conclusion. Carrier acceptance and vehicle capacity are now reported available. The next question changes: has the receiving slot been confirmed? These remain supplier reports, not independently verified logistics events. The supplier previews the updated findings and authorizes the new version for the planner.
+
+02:06
+The planner now receives the authorized update. Better supply information changes the assessment, but does not prove extra demand. The planner keeps the original three hundred and sixty cases and adds zero. We record the reason: the receiving slot and additional demand remain unresolved. Then we save the disposition and submit it for separate retailer approval.
+
+02:40
+Acting as a simulated retailer approver, we approve the disposition. The procurement sandbox returns a saved receipt, which we refresh and read back. No SAP order was created. Real business savings still need a pilot.
