@@ -32,7 +32,7 @@ $env:DEMO_BUDGET_USD = '1'
 .\.venv\Scripts\python demo/server.py
 ```
 
-The example authorizes a separate $1 local reservation cap; choose 0–9 USD. It does **not** consume or reset the original project's $10 authorization. UI references to $10/$9 describe maximum ceilings; the configured cap may be lower. `demo/runtime/budget.sqlite` persists accounting across sessions. Never delete/reset it to evade a cap. Add a provider-side spending limit as well; the local estimate is not a billing guarantee. Uncertain/failed calls retain their reservation and do not automatically retry. Model/provider availability and actual charges may vary.
+The example authorizes a separate $1 local reservation cap; choose 0–9 USD. It does **not** consume or reset the project's authorization (originally $10, later raised to USD 20 with a USD 4 cloud cap; see PROGRESS.md). UI references to $10/$9 describe maximum ceilings; the configured cap may be lower. `demo/runtime/budget.sqlite` persists accounting across sessions. Never delete/reset it to evade a cap. Add a provider-side spending limit as well; the local estimate is not a billing guarantee. Uncertain/failed calls retain their reservation and do not automatically retry. Model/provider availability and actual charges may vary.
 
 The model is `anthropic/claude-sonnet-4.6`. Live review, new reply and alternative investigation may each trigger calls. Sharing and closure are local human/rule actions. Real calls process only the frozen synthetic material; no production inbox or SAP system is accessed. Do not put real supplier material into this public demonstration package.
 
