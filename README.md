@@ -1,4 +1,24 @@
-# Demand Pulse — team handoff
+# Demand Pulse
+
+**From a demand signal to a procurement decision.** One shared task per demand signal: an Agent checks the evidence, the planner decides, and procurement receives a recorded decision. The J Collective, SAP Product+ Summit semi-final.
+
+## For the judges: start here
+
+1. **Watch the three-minute demo** (plays in the browser): <https://logisticpm.github.io/sap/video/Demand_Pulse_Demand_to_Decision_EN.mp4>. It replays two retained real-model tests on synthetic data: the demand evidence gate moving from pause to continue, then a supplier reply read as a revision through to a recorded decision and a procurement-sandbox receipt. No new model calls were made for filming; SAP is not connected.
+2. **The slide deck** is attached to our submission email; the demo video above is embedded in it.
+3. **Try it yourself, no login**: <https://logisticpm.github.io/sap/>. An interactive replay of an earlier version of the supplier-reply workflow, on synthetic records, with no model calls.
+4. **What the product does, in five statements**: [docs/STORY_DEFINITIONS.md](docs/STORY_DEFINITIONS.md).
+5. **The code**:
+   - [`procurement_sandbox/`](procurement_sandbox/README.md): an S/4HANA-shaped procurement sandbox (purchase order, stock and purchase requisition services, with CSRF, ETags, idempotency and fault injection), a reference client, a ten-task acceptance kit and its tests. Not SAP connected.
+   - [`demo/`](docs/RUN_LOCAL.md): the local Agent workbench, runnable with your own model key.
+   - [`web/`](web/): the public replay above.
+   - The deployed cloud workspace behind the video is hosted separately and is not part of this repository.
+
+All business data is synthetic. Model cost is measured; time saved and business value are hypotheses that a pilot is designed to test.
+
+---
+
+## Team handoff notes
 
 _Last synchronised: 25 October 2026, against deliverable v50 (deployed) and v51 (in progress)._
 
@@ -53,7 +73,7 @@ Earlier PRDs, deployed versions and session records are retained in the full pro
 9. [Research report, including negative findings](docs/RESEARCH_REPORT.md).
 10. [Product design and responsibility boundaries](docs/PRODUCT_DESIGN.md).
 11. [Run the real Agent locally](docs/RUN_LOCAL.md), using your own key and an explicit separate budget.
-12. [Business case deck](presentations/SAP_Demand_Pulse_Business_Case_Deck.pptx) — 14 slides in one flow, no appendix, anchored on one sentence: a demand signal becomes a procurement decision, evidence-checked and human-approved. Ordered by the judging weights: the exception class and its evidence, the promise (demand evidence gate → reply check → CHANGE / KEEP / WAIT), alternatives, how it works, then slide 7, the **embedded three-minute video** "demand evidence to procurement decision" (two retained real-model tests replayed: the gate's pause → continue on new evidence, then a supplier reply read as a revision, authorised sharing, a KEEP disposition and a persistent procurement-sandbox receipt; no new inference was run for filming; not one connected run), what is proven and not, where the model was wrong, finance, stakeholder trade-offs, implementation plan, a future vision marked as context not scope, and a recommendation. Evidence labels (Built / Real-model / Desk / Hypothesis) are concentrated on the proven / not slide. [Eight-minute run sheet](presentations/RUN_SHEET_8MIN.md) with per-slide timing and a playback checklist. [Story definitions](docs/STORY_DEFINITIONS.md): the five statements deck, video and demo all follow. Generator in `presentations/build/`; it embeds the video from `deliverable/competition_v62_video/`, which is outside this repository.
+12. [Business case deck](presentations/SAP_Demand_Pulse_Business_Case_Deck.pptx) — 11 slides, one message each, no appendix: today's workflow, the evidence (each number labelled real data, external study or our simulation, with its source), the product in one line and three moves, how it works, the **embedded three-minute video** (two retained real-model tests replayed: the demand gate's pause → continue, then a supplier reply read as a revision through to a persistent sandbox receipt; not one connected run), what is proven and not, where it plugs into SAP and what that costs, stakeholder trade-offs and gates, the twelve-day plan, and a recommendation with a now / next / later vision. Revised against last round's judge feedback; the mapping is in the run sheet. [Eight-minute run sheet](presentations/RUN_SHEET_8MIN.md). [Story definitions](docs/STORY_DEFINITIONS.md): the five statements deck, video and demo all follow. Generator in `presentations/build/`; it embeds the video from `deliverable/competition_v62_video/`, which is outside this repository.
 13. [Five-minute English PPT](presentations/Team_Update_EN.pptx) — **built from v31 screenshots; it predates v33–v50 and has not been regenerated.**
 
 ## Five-minute walkthroughs
