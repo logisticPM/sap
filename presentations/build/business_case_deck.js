@@ -5,6 +5,7 @@
  * Sources: docs/STAKEHOLDER_BRIEF.md, docs/PRODUCT_THESIS_AND_SANDBOX_PLAN.md, docs/PROGRESS.md, docs/VALIDATION.md.
  */
 const path = require("path");
+const fs = require("fs");
 const pptxgen = require("pptxgenjs");
 const SKILL = "C:/Users/chntw/AppData/Local/Claude-Data/claude_pzs8sxrjxfjjc/local-agent-mode-sessions/skills-plugin/882cb59a-4473-42fb-b441-a15e945c8e67/d2a91106-eb50-4fe5-b638-45da0d80d1af/skills/pptx";
 const { applyTheme } = require(path.join(SKILL, "scripts/apply_theme.js"));
@@ -70,10 +71,13 @@ const cell = (t, o = {}) => ({ text: t, options: Object.assign({ fontSize: 12.5,
 const tableOpts = (x, y, w, colW, extra = {}) => Object.assign({ x, y, w, colW, border: { type: "solid", pt: 0.5, color: H.accent5 }, fill: { color: H.lt1 }, margin: 0.08, autoPage: false, fontFace: THEME.bodyFontFace }, extra);
 
 const TIMING = {
-  title: "0:00–0:15", problem: "0:15–0:50", evidence: "0:50–1:25", promise: "1:25–1:50", alternatives: "1:50–2:20", how: "2:20–2:45",
-  demo: "2:45–3:00 · LIVE DEMO 3:00–5:00", proven: "5:00–5:15", wrong: "5:15–5:45", finance: "5:45–6:10", stakeholders: "6:10–6:45", plan: "6:45–7:15", vision: "7:15–7:35", asks: "7:35–7:55 · 5 s buffer",
+  title: "0:00–0:10", problem: "0:10–0:35", evidence: "0:35–0:55", promise: "0:55–1:15", alternatives: "1:15–1:35", how: "1:35–1:55",
+  demo: "1:55–4:55 · VIDEO 3:00", proven: "4:55–5:10", wrong: "5:10–5:35", finance: "5:35–5:55", stakeholders: "5:55–6:30", plan: "6:30–7:00", vision: "7:00–7:25", asks: "7:25–7:50 · 10 s buffer",
 };
 const note = (k, t) => `[${TIMING[k]}] ${t}`;
+const DELIV = path.resolve(__dirname, "../../../deliverable");
+const VIDEO = path.join(DELIV, "competition_v60_video/Demand_Pulse_3min_English_Walkthrough.mp4");
+const VIDEO_COVER = path.join(DELIV, "competition_v60_video/build/qa-5.png");
 const S = {};
 
 // ================================================================ 1 title
@@ -206,7 +210,7 @@ S.alternatives = () => {
 S.how = () => {
   const s = pres.addSlide({ masterName: "CONTENT" });
   s.addText("One loop, three kinds of authority", { placeholder: "title" });
-  const steps = [["Demand signal arrives", "n"], ["Demand gate: continue · clarify · pause", "g"], ["Supplier reply arrives", "n", "Planned"], ["Model reads and cites", "m"], ["Rules validate, model audits", "r"], ["Supplier authorises disclosure", "h"], ["Planner decides", "h"], ["Procurement receipt", "n", "Planned"]];
+  const steps = [["Demand signal arrives", "n"], ["Demand gate: continue · clarify · pause", "g"], ["Supplier reply arrives by email", "n"], ["Model reads and cites", "m"], ["Rules validate, model audits", "r"], ["Supplier authorises disclosure", "h"], ["Planner decides", "h"], ["Procurement receipt persisted", "n"]];
   const gap = 0.16, bw = (W - 2 * M - gap * (steps.length - 1)) / steps.length, y = 1.6;
   steps.forEach(([t, kind, tag], i) => {
     const x = M + i * (bw + gap);
@@ -228,38 +232,18 @@ S.how = () => {
     T(s, h, { x: x + 0.22, y: by + 0.2, w: 1.6, h: 0.34, fontSize: 12, bold: true, color: C.background1, align: "center", valign: "middle" });
     s.addText(bullets(items, 12.5, 5), { x: x + 0.22, y: by + 0.72, w: w - 0.44, h: hh - 0.85, isTextBox: true, margin: 0, color: C.text1, valign: "top" });
   });
-  T(s, "Dark reads, teal decides, amber authorises. Dashed: a model judgment that rules enforce. \"Planned\": built and tested separately, wired into the app in days 1–7; today the supplier types the reply and the receipt is shown from the sandbox.", { x: M, y: 6.3, w: 12.1, h: 0.5, fontSize: 11.5, color: C.accent4 });
-  s.addNotes(note("how", "Prototype, twenty percent, with the demo. The loop starts with the demand signal and the gate, then the supplier reply. The answer to 'is it just AI': the model reads and drafts, a deterministic rule layer validates every output in the same handler production uses, humans hold every commercial authority. Point at the dashed gate. Be straight about the two 'Planned' boxes: email intake and the sandbox write are built and tested on their own, not yet wired into the app."));
+  T(s, "Dark reads, teal decides, amber authorises. Dashed: a model judgment that rules enforce. Email arrives through a simulated test intake, not a live mailbox; the receipt is a procurement sandbox record, not SAP.", { x: M, y: 6.3, w: 12.1, h: 0.5, fontSize: 11.5, color: C.accent4 });
+  s.addNotes(note("how", "Prototype, twenty percent, with the demo. The loop starts with the demand signal and the gate, then the supplier reply. The answer to 'is it just AI': the model reads and drafts, a deterministic rule layer validates every output in the same handler production uses, humans hold every commercial authority. Point at the dashed gate. Be straight about the two ends: the email arrives through a simulated test intake behind the same validator a real mailbox would use, and the receipt lives in a procurement sandbox, not SAP. Both ran end to end in one real-model run, the one the video replays."));
 };
 
 // ================================================================ 7 demo
 S.demo = () => {
-  const s = pres.addSlide({ masterName: "CONTENT" });
-  s.addText("Demo: six frames, then live", { placeholder: "title" });
-  tagline(s, ["Live", "Planned"], "Real captures of the deployed workbench on synthetic data. Two frames are built but not yet wired in.");
-  const frames = [
-    ["Demand gate: investigate", "cited reasons; purchase stays on hold", "frame_5_planner_decision.png", "Live"],
-    ["Supplier enters the reply", "typed today; email intake planned", "frame_1_supplier_reply.png", "Live"],
-    ["Agent reads, cites, revises", "a rule check forced the revision", "frame_2_agent_reads.png", "Live"],
-    ["Planner: quote and decision card", "", "frame_3_planner_card.png", "Live"],
-    ["Procurement review prepared", "approvals stay separate; not connected", "frame_4_procurement_review.png", "Live"],
-    ["Procurement sandbox receipt", "shown separately; wiring in days 4–7", null, "Planned"],
-  ];
-  frames.forEach(([cap, sub, file, tag], i) => {
-    const col = i % 3, row = Math.floor(i / 3);
-    const x = M + col * 4.1, y = 2.0 + row * 2.45, w = 3.9, hh = 2.3;
-    box(s, x, y, w, hh);
-    num(s, i + 1, x + 0.15, y + 0.12, 0.34);
-    T(s, cap, { x: x + 0.58, y: y + 0.08, w: w - 1.5, h: 0.45, fontSize: 11.5, bold: true, color: C.text2, valign: "middle" });
-    pill(s, tag, x + w - 0.95, y + 0.17, 0.8, 0.24, 9);
-    if (file) s.addImage({ path: path.join(ASSETS, file), x: x + 0.15, y: y + 0.6, w: w - 0.3, h: hh - 0.95, sizing: { type: "contain", w: w - 0.3, h: hh - 0.95 } });
-    else {
-      rect(s, x + 0.15, y + 0.6, w - 0.3, hh - 0.95, { fill: { color: C.text1 } });
-      T(s, [{ text: "POST A_PurchaseRequisitionHeader", options: { bold: true, breakLine: true } }, { text: "201 Created · PR 1000000001", options: { breakLine: true } }, { text: "awaiting procurement approval", options: { breakLine: true } }, { text: "X-Procurement-Sandbox: not-SAP-connected", options: { breakLine: true } }, { text: "retry, same key → 200 already submitted", options: {} }], { x: x + 0.3, y: y + 0.7, w: w - 0.6, h: hh - 1.1, fontSize: 9.5, color: C.background1, fontFace: "Courier New", valign: "top", paraSpaceAfter: 2 });
-    }
-    if (sub) T(s, sub, { x: x + 0.15, y: y + hh - 0.33, w: w - 0.3, h: 0.28, fontSize: 10, italic: true, color: C.accent4, valign: "middle" });
-  });
-  s.addNotes(note("demo", "Fifteen seconds here, then two minutes live. Live order: open the inquiry and show the demand gate verdict with its citations; supplier types the reply; Agent checks with citations; show one retained rule rejection; supplier authorises; planner sees the update and the decision card; procurement review packet, labelled not connected; then switch to the terminal and run the sandbox client once: 201, requisition number, retry gives already submitted, approver release. Say which steps are planned. If the live demo fails, walk these frames."));
+  // Full-bleed embedded video: Codex's three-minute walkthrough of the completed v59 real-model run.
+  // Nothing was re-run for filming; the clip replays saved state. Source stays in deliverable/, the deck embeds a copy.
+  const s = pres.addSlide({ masterName: "DARK" });
+  const cover = "data:image/png;base64," + fs.readFileSync(VIDEO_COVER).toString("base64");
+  s.addMedia({ type: "video", path: VIDEO, cover, x: 0, y: 0, w: 13.333, h: 7.5 });
+  s.addNotes(note("demo", "Click once; the clip plays full-slide, three minutes, with its own narration. Six chapters: 0:00 a new supplier reply arrives by simulated test intake; 0:28 what the Agent checked, with citations and the separate model audit; 1:10 the supplier authorises disclosure of v3; 1:41 the planner's decision, retain 360 cases and add 0; 2:11 separate procurement approval and the persisted receipt SBX-PR-3C6BEEEE62CB; 2:41 what this demonstrates and what it does not. The video is a replay of a completed real-model run, not new inference; say that before pressing play. If sound fails, narrate the chapter titles over the picture. After the clip, one optional live beat: open the planner tab and refresh the receipt once."));
 };
 
 // ================================================================ 8 proven
@@ -279,7 +263,7 @@ S.proven = () => {
   const rows = [
     [hdr("What exists"), hdr("Status"), hdr("Does not prove")],
     [cell("Deployed workspace for planner and supplier; retained real-model records", { bold: true }), tc("Built"), cell("Any order, SAP write, labour saving")],
-    [cell("Interactive supplier reply flow", { bold: true }), tc("In progress"), cell("Nothing yet: no validation record")],
+    [cell("Email in, Agent check, authorised v3, persisted receipt: one real-model run end to end", { bold: true }), tc("Real-model"), cell("A success rate; a live mailbox; it ran once")],
     [cell("Real-model tests on three synthetic items, with a correction loop", { bold: true }), tc("Real-model"), cell("A success rate; behaviour on real documents")],
     [cell("S/4HANA-shaped procurement sandbox, 41 tests", { bold: true }), tc("Built"), cell("SAP write semantics; it is not SAP")],
     [cell("Ten frozen acceptance tasks, inbound contract, simulator, scorer", { bold: true }), tc("Built"), cell("Independence: authored on the development side")],
@@ -336,7 +320,7 @@ S.stakeholders = () => {
   s.addText("Four stakeholders, four trade-offs, one roadmap of gates", { placeholder: "title" });
   const rows = [
     [hdr("Stakeholder"), hdr("Needs"), hdr("We chose"), hdr("We gave up")],
-    [cell("Software development", { bold: true }), cell("Reliability; no model with write rights"), cell("Rules in the write path; failures retained; sandbox contract"), cell("Feature speed; reply flow still unvalidated")],
+    [cell("Software development", { bold: true }), cell("Reliability; no model with write rights"), cell("Rules in the write path; failures retained; sandbox contract"), cell("Feature speed; the loop has run end to end once")],
     [cell("Marketing", { bold: true }), cell("A differentiated story"), cell("One claim, one buyer; four claims withdrawn"), cell("The \"network\" narrative as scope; any price advantage")],
     [cell("Finance", { bold: true }), cell("A return"), cell("Measured cost; pre-set targets; kill rules"), cell("Any savings number today")],
     [cell("Product strategy", { bold: true }), cell("A scalable wedge"), cell("The demand-to-decision loop, four gates"), cell("Forecasting, transfers, autonomous buying")],
@@ -359,7 +343,7 @@ S.plan = () => {
   const s = pres.addSlide({ masterName: "CONTENT" });
   s.addText("Twelve days to an engineering result, then a pilot", { placeholder: "title" });
   tagline(s, ["Hypothesis"], "Resources, dependencies, milestones, success criteria and stop rules, stated before run one.");
-  card(s, M, 2.0, 3.9, 3.5, "Milestones", ["Days 1–3: email intake, case matching, duplicate guard, timestamps", "Days 4–7: approver role, submission with receipts and staleness check, closure; freeze", "Days 8–12: ten frozen tasks scored against sandbox records; engineering report", "Then: 3-arm pilot on 10–20 real exceptions"], { bodySize: 12 });
+  card(s, M, 2.0, 3.9, 3.5, "Milestones", ["Days 1–3: a real mailbox behind the same intake validator; call budget for ten runs", "Days 4–7: ten frozen tasks run end to end, scored against sandbox records; freeze", "Days 8–12: repair, re-run, engineering report", "Then: 3-arm pilot on 10–20 real exceptions"], { bodySize: 12 });
   card(s, M + 4.1, 2.0, 3.9, 3.5, "Resources and dependencies", ["Two builders, two model lanes, no hires", "A case mailbox, or the simulator until then", "A reachable sandbox host", "One partner with real exceptions", "An SAP tenant owner for phase 2", "Cap USD 20; pilot model spend < USD 50"], { bodySize: 12 });
   card(s, M + 8.2, 2.0, 3.9, 3.5, "Success criteria and stop rules", ["Engineering: 10 of 10 tasks end to end, zero critical errors", "Business: −30% active time vs manual; −15% vs strong form; no burden shifted to the supplier", "Stop: forms match → ship the form; critical error → suspend auto-submit; transport dominates → no arrival promise"], { bodySize: 12 });
   box(s, M, 5.75, 12.1, 0.75, { fill: { color: C.background1 }, line: { color: H.accent3, width: 1.25 } });
