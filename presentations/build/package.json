@@ -1,0 +1,7 @@
+{
+  "name": "demand-pulse-deck-build",
+  "private": true,
+  "description": "Builds SAP_Demand_Pulse_Business_Case_Deck.pptx with pptxgenjs",
+  "scripts": { "build": "node business_case_deck.js" },
+  "dependencies": { "pptxgenjs": "^3.12.0" }
+}

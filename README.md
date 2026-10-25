@@ -53,7 +53,8 @@ Earlier PRDs, deployed versions and session records are retained in the full pro
 9. [Research report, including negative findings](docs/RESEARCH_REPORT.md).
 10. [Product design and responsibility boundaries](docs/PRODUCT_DESIGN.md).
 11. [Run the real Agent locally](docs/RUN_LOCAL.md), using your own key and an explicit separate budget.
-12. [Five-minute English PPT](presentations/Team_Update_EN.pptx) — **built from v31 screenshots; it predates v33–v50 and has not been regenerated.**
+12. [Business case deck](presentations/SAP_Demand_Pulse_Business_Case_Deck.pptx) — 16 slides for the internal stakeholder panel (software development, marketing, finance, product strategy), built 25 October from the documents above; every claim carries a Built / Real-model / Desk / Hypothesis label. Generator in `presentations/build/`.
+13. [Five-minute English PPT](presentations/Team_Update_EN.pptx) — **built from v31 screenshots; it predates v33–v50 and has not been regenerated.**
 
 ## Five-minute walkthroughs
 
