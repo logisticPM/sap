@@ -69,15 +69,15 @@ Pick one explicit write target first: a **procurement change request or approval
 
 | Work | Minimal implementation | Accepted when | Owner | Size |
 |---|---|---|---|---|
-| Probe the real sandbox | Register on the SAP Business Accelerator Hub, obtain the free key, call the purchase-order and purchase-requisition services with GET, attempt one POST, record every response verbatim | A dated file states which methods the sandbox accepted, with payloads and responses | Claude | S |
-| Define the change draft | Original procurement object, original and proposed values, reason, evidence, open unknowns; mapped field by field to purchase-requisition fields | An approver understands exactly what changes without opening the Agent trace | Claude | S |
+| ~~Probe the real sandbox~~ | Dropped by team decision on 25 October: no SAP key, no public-sandbox probe. The output end is the mock below | — | — | — |
+| Define the change draft | Original procurement object, original and proposed values, reason, evidence, open unknowns; mapped field by field to purchase-requisition fields | An approver understands exactly what changes without opening the Agent trace | Claude — **done**, `procurement_sandbox/CONTRACT.md` §3 and §9 | S |
 | Separate procurement approval | Retailer-side approval role, distinct from the supplier's disclosure authorisation | A supplier sharing a reply can never trigger a procurement submission | Codex | S |
-| Submit to the sandbox | After approval, create a real, persisted draft or request object | A number, a status and a viewable record come back | Codex (app) + Claude (mock service) | M |
+| Submit to the sandbox | After approval, create a real, persisted draft or request object | A number, a status and a viewable record come back | Codex (app); mock service by Claude — **done**, `procurement_sandbox/` | M |
 | Prevent duplicates and staleness | Idempotent submission; before submitting, check whether the procurement object has changed since the review | A retry creates no second object; an old proposal cannot overwrite a newer plan | Codex | S |
 | Receipts and failure handling | Show success, rejection, failure and re-approval-needed as distinct states | "Request sent" is never displayed as "change completed" | Codex | S |
 | Close the exception | Store the final disposition and the object link on the case | The planner keeps no separate tracking sheet | Codex | S |
 
-**If no SAP tenant is available**, connect a standalone, persistent procurement mock service with version checks and status receipts (its own folder, outside the cloud app; SAP-shaped payloads; SQLite; idempotency key). It proves the application-layer loop. Every screen and every record labels it **"Procurement sandbox — not SAP connected"**.
+**Decision taken 25 October: no SAP tenant or public-sandbox probe; the output end is a mock, made as SAP-shaped as possible.** The standalone, persistent procurement mock service now exists in the full project folder under `procurement_sandbox/` (S/4HANA-shaped OData v2 services for purchase order read, stock read and purchase requisition read/write; SQLite; CSRF; roles; ETags; idempotency key; duplicate guard; staleness check; fault injection; audit; 21 contract tests). Its contract and the change-draft field mapping are in `procurement_sandbox/CONTRACT.md`. It proves the application-layer loop. Every response and every screen labels it **"Procurement sandbox — not SAP connected"**.
 
 Before anyone uses the SAP name to claim connectivity, we still need a test tenant, a technical contact, and a check of exactly which read and draft/approval interfaces that release supports. The mock never substitutes for that verification. Public material already suggests the free sandbox is effectively read-only and that released purchase-order APIs handle only active documents (sources in section 8); the probe gives the real answer.
 
