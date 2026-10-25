@@ -44,13 +44,14 @@ Earlier PRDs, deployed versions and session records are retained in the full pro
 
 1. [Try the public demo](https://logisticpm.github.io/sap/) — no login, no key, no model charges. Historical replay on synthetic business records (v31 records).
 2. [Open the live v50 task workspace](https://demand-pulse-team-agent.keen-cod-0621.chatgpt.site/task?id=1c08677ed719499d8459ee432039c9db&role=planner) — testing code required; no model calls from the task view.
-3. [Competition PRD v41](docs/COMPETITION_PRD_v41.md) — current product definition. [PRD v34](docs/COMPETITION_PRD_v34.md) is retained for comparison.
-4. [Progress and implementation status](docs/PROGRESS.md).
-5. [Validation results, preserved failures and next experiment](docs/VALIDATION.md).
-6. [Research report, including negative findings](docs/RESEARCH_REPORT.md).
-7. [Product design and responsibility boundaries](docs/PRODUCT_DESIGN.md).
-8. [Run the real Agent locally](docs/RUN_LOCAL.md), using your own key and an explicit separate budget.
-9. [Five-minute English PPT](presentations/Team_Update_EN.pptx) — **built from v31 screenshots; it predates v33–v50 and has not been regenerated.**
+3. [Stakeholder brief](docs/STAKEHOLDER_BRIEF.md) — the hardest question from software development, marketing, finance and product strategy, with our answer and evidence links for each.
+4. [Competition PRD v41](docs/COMPETITION_PRD_v41.md) — current product definition. [PRD v34](docs/COMPETITION_PRD_v34.md) is retained for comparison.
+5. [Progress and implementation status](docs/PROGRESS.md).
+6. [Validation results, preserved failures and next experiment](docs/VALIDATION.md).
+7. [Research report, including negative findings](docs/RESEARCH_REPORT.md).
+8. [Product design and responsibility boundaries](docs/PRODUCT_DESIGN.md).
+9. [Run the real Agent locally](docs/RUN_LOCAL.md), using your own key and an explicit separate budget.
+10. [Five-minute English PPT](presentations/Team_Update_EN.pptx) — **built from v31 screenshots; it predates v33–v50 and has not been regenerated.**
 
 ## Five-minute walkthroughs
 
