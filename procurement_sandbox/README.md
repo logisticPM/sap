@@ -36,6 +36,7 @@ Health: `GET http://127.0.0.1:8081/sandbox/health` returns `"sap_connected": fal
 
 - [`client.py`](client.py): `ProcurementClient` with `read_purchase_order`, `read_stock`, `submit_change_draft`, `resolve_unknown`, `release`, `reject`, plus `map_change_draft` (CONTRACT §9) and the state names of CONTRACT §7. `python -m procurement_sandbox.client --base http://127.0.0.1:8081` runs the whole loop against a live sandbox and prints each state, including the 412 after a PO change.
 - [`acceptance/`](acceptance/README.md): ten frozen engineering-acceptance tasks (`tasks.json`, hashed in `freeze.json`), the `case_export.json` contract the application must emit, and `score.py`, which cross-checks the application's claims against the sandbox's own records and writes a report that states no business value.
+- [`acceptance/INBOUND_CONTRACT.md`](acceptance/INBOUND_CONTRACT.md): the shape, authentication, responses and matching rules for the application's `POST /api/inbound`; `simulate_inbound.py` sends the ten tasks' emails in that shape, and `inbound_reference_receiver.py` is a no-Agent reference implementation of the endpoint.
 
 ## Sixty-second walkthrough
 

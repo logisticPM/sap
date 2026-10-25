@@ -11,6 +11,9 @@ Ten frozen tasks that test whether the chain **email → case match → review �
 | `tasks.json` | Ten tasks: synthetic inbound emails, sandbox setup steps, expected outcomes, answer keys |
 | `freeze.py` | Hashes `tasks.json` into `freeze.json` before the first run; `--check` verifies nothing changed |
 | `score.py` | Reads one `case_export.json` per task from the application, cross-checks the sandbox's own records, writes a report |
+| `INBOUND_CONTRACT.md` | The payload, authentication, response and matching rules for the application's `POST /api/inbound` |
+| `simulate_inbound.py` | Sends the ten tasks' emails to `/api/inbound` in the contract shape, signed; `source: "simulator"` on every payload; writes `sent_log.json` |
+| `inbound_reference_receiver.py` | A no-Agent reference implementation of `/api/inbound` (validation, auth, deduplication, matching) to test producers against and to copy from |
 | `../client.py` | Reference client used by the scorer to read the sandbox |
 
 ## 2. The ten tasks
@@ -89,7 +92,13 @@ Field rules:
 
 1. Start the sandbox fresh: `python -m procurement_sandbox --db acceptance_run.sqlite`, or `POST /sandbox/reset` with role `system`.
 2. Freeze: `python -m procurement_sandbox.acceptance.freeze`. Commit `freeze.json` before sending the first email.
-3. For each task, send the inbound emails from `tasks.json` to the case mailbox from an ordinary mail client (or, while no mailbox exists, through the inbound simulator the application provides; declare that in `synthetic_components`). Apply the task's `sandbox_setup` steps at the stated moment. Play the planner, supplier and procurement approver roles as the task requires.
+3. For each task, send the inbound emails from `tasks.json` to the case mailbox from an ordinary mail client. While no mailbox exists, use the simulator instead, one task at a time so the `sandbox_setup` steps can be applied at the right moment:
+
+   ```bash
+   ..\.venv\Scripts\python -m procurement_sandbox.acceptance.simulate_inbound --target https://<app>/api/inbound --secret <shared secret> --task T07 --out acceptance_run/
+   ```
+
+   Every simulated message carries `source: "simulator"`; the application copies that into `inbound[].source` and the report lists "mail receipt simulated" under synthetic components. Apply the task's `sandbox_setup` steps at the stated moment. Play the planner, supplier and procurement approver roles as the task requires. To test the endpoint before the application has one, run the reference receiver (`python -m procurement_sandbox.acceptance.inbound_reference_receiver --port 5177`) and point the simulator at `http://127.0.0.1:5177/api/inbound`.
 4. Export `T01.json` … `T10.json` from the application into one folder.
 5. Score: `python -m procurement_sandbox.acceptance.score --exports <folder> --base http://127.0.0.1:8081 --out report.md`.
 
